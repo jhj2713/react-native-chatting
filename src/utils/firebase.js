@@ -26,7 +26,7 @@ export const signup = async ({ email, password, name, photoUrl }) => {
     : await uploadImage(photoUrl);
   await updateProfile(auth.currentUser, {
     displayName: name,
-    photoUrl: storageUrl,
+    photoURL: storageUrl,
   });
   return user;
 };
@@ -57,4 +57,20 @@ const uploadImage = async (uri) => {
 
 export const logout = async () => {
   return await signOut();
+};
+
+export const getCurrentUser = () => {
+  const { uid, displayName, email, photoURL } = auth.currentUser;
+  return { uid, name: displayName, email, photoUrl: photoURL };
+};
+
+export const updateUserPhoto = async (photoUrl) => {
+  const user = auth.currentUser;
+  const storageUrl = photoUrl.startsWith("https")
+    ? photoUrl
+    : await uploadImage(photoUrl);
+  await updateProfile(auth.currentUser, {
+    photoURL: storageUrl,
+  });
+  return { name: user.displayName, email: user.email, photoUrl: user.photoURL };
 };
