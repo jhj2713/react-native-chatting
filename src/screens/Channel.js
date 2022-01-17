@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useLayoutEffect } from "react";
-import { firestore } from "../utils/firebase";
+import { firestore, createMessage } from "../utils/firebase";
 import styled from "styled-components/native";
 import { Text, FlatList } from "react-native";
+import { Input } from "../components";
 
 const Container = styled.View`
   flex: 1;
@@ -10,6 +11,7 @@ const Container = styled.View`
 
 const Channel = ({ navigation, route: { params } }) => {
   const [messages, setMessages] = useState([]);
+  const [text, setText] = useState([]);
 
   useEffect(() => {
     const unsubscribe = firestore
@@ -39,6 +41,12 @@ const Channel = ({ navigation, route: { params } }) => {
         renderItem={({ item }) => (
           <Text style={{ fontSize: 24 }}>{item.text}</Text>
         )}
+        inverted={true}
+      />
+      <Input
+        value={text}
+        onChangeText={(text) => setText(text)}
+        onSubmitEditing={() => createMessage({ channelId: params.id, text })}
       />
     </Container>
   );
