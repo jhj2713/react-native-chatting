@@ -3,6 +3,7 @@ import { firestore } from "../utils/firebase";
 import { FlatList } from "react-native";
 import styled, { ThemeContext } from "styled-components/native";
 import { MaterialIcons } from "@expo/vector-icons";
+import moment from "moment";
 
 const Container = styled.View`
   flex: 1;
@@ -33,6 +34,12 @@ const ItemTime = styled.Text`
   color: ${({ theme }) => theme.listTime};
 `;
 
+const getDateOrTime = (time) => {
+  const now = moment().startOf("day");
+  const target = moment(time).startOf("day");
+  return moment(time).format(now.diff(target, "days") > 0 ? "MM/DD" : "HH:mm");
+};
+
 const Item = React.memo(
   ({ item: { id, title, description, createdAt }, onPress }) => {
     const theme = useContext(ThemeContext);
@@ -43,7 +50,7 @@ const Item = React.memo(
           <ItemTitle>{title}</ItemTitle>
           <ItemDescription>{description}</ItemDescription>
         </ItemTextContainer>
-        <ItemTime>{createdAt}</ItemTime>
+        <ItemTime>{getDateOrTime(createdAt)}</ItemTime>
         <MaterialIcons
           name="keyboard-arrow-right"
           size={24}
