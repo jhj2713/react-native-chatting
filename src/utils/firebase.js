@@ -46,7 +46,7 @@ const uploadImage = async (uri) => {
 
   const user = auth.currentUser;
   const imageRef = ref(storage, `/profile/${user.uid}/photo.png`);
-  const snapshot = await uploadBytes(imageRef, blob, {
+  await uploadBytes(imageRef, blob, {
     contentType: "image/png",
   });
 
