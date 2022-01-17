@@ -102,6 +102,7 @@ const Signup = () => {
           onSubmitEditing={() => passwordConfirmRef.current.focus()}
           placeholder="Password"
           returnKeyType="next"
+          isPassword
         />
         <Input
           ref={passwordConfirmRef}
@@ -111,6 +112,7 @@ const Signup = () => {
           onSubmitEditing={_handleSignupButtonPress}
           placeholder="Password"
           returnKeyType="done"
+          isPassword
         />
         <ErrorText>{errorMessage}</ErrorText>
         <Button
