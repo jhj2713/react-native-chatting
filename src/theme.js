@@ -23,4 +23,6 @@ export const theme = {
   imageButtonIcon: colors.white,
   spinnerBackground: colors.black,
   spinnerIndicator: colors.white,
+  tabActiveColor: colors.blue,
+  tabInactiveColor: colors.grey_1,
 };
