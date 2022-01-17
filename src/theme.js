@@ -31,4 +31,6 @@ export const theme = {
   listTime: colors.grey_1,
   listDescription: colors.grey_1,
   listIcon: colors.black,
+  sendButtonActivate: colors.blue,
+  sendButtonInactive: colors.grey_1,
 };
