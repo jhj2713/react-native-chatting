@@ -27,4 +27,8 @@ export const theme = {
   tabInactiveColor: colors.grey_1,
   buttonLogout: colors.red,
   inputDisabledBackground: colors.grey_0,
+  listBorder: colors.grey_0,
+  listTime: colors.grey_1,
+  listDescription: colors.grey_1,
+  listIcon: colors.black,
 };
