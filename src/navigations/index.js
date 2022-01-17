@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import AuthStack from "./AuthStack";
+import MainStack from "./MainStack";
 import { Spinner } from "../components";
 import { ProgressContext } from "../contexts";
 
@@ -9,7 +10,7 @@ const Navigation = () => {
 
   return (
     <NavigationContainer>
-      <AuthStack />
+      <MainStack />
       {inProgress && <Spinner />}
     </NavigationContainer>
   );
