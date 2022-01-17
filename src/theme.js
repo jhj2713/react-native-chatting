@@ -10,4 +10,5 @@ const colors = {
 export const theme = {
   background: colors.white,
   text: colors.black,
+  imageBackground: colors.grey_0,
 };
