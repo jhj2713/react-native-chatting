@@ -14,7 +14,7 @@ firebase.initializeApp(config);
 
 const auth = getAuth();
 const storage = getStorage();
-const firestore = firebase.firestore();
+export const firestore = firebase.firestore();
 
 export const login = async ({ email, password }) => {
   const { user } = await signInWithEmailAndPassword(auth, email, password);

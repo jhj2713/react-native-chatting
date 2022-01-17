@@ -1,4 +1,5 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
+import { firestore } from "../utils/firebase";
 import { FlatList } from "react-native";
 import styled, { ThemeContext } from "styled-components/native";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -32,16 +33,6 @@ const ItemTime = styled.Text`
   color: ${({ theme }) => theme.listTime};
 `;
 
-const channels = [];
-for (let idx = 0; idx < 10; idx++) {
-  channels.push({
-    id: idx,
-    title: `title ${idx}`,
-    description: `description ${idx}`,
-    createdAt: idx,
-  });
-}
-
 const Item = React.memo(
   ({ item: { id, title, description, createdAt }, onPress }) => {
     const theme = useContext(ThemeContext);
@@ -64,6 +55,22 @@ const Item = React.memo(
 );
 
 const ChannelList = ({ navigation }) => {
+  const [channels, setChannels] = useState([]);
+
+  useEffect(() => {
+    const unsubscribe = firestore
+      .collection("channels")
+      .orderBy("createdAt", "desc")
+      .onSnapshot((snapshot) => {
+        const list = [];
+        snapshot.forEach((doc) => {
+          list.push(doc.data());
+        });
+        setChannels(list);
+      });
+    return () => unsubscribe();
+  }, []);
+
   const _handleItemPress = (params) => {
     navigation.navigate("Channel", params);
   };
@@ -71,7 +78,7 @@ const ChannelList = ({ navigation }) => {
   return (
     <Container>
       <FlatList
-        keyExtractor={(item) => item["id"].toString()}
+        keyExtractor={(item) => item["id"]}
         data={channels}
         renderItem={({ item }) => (
           <Item item={item} onPress={_handleItemPress} />
