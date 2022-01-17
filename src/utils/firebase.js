@@ -90,13 +90,14 @@ export const createChannel = async ({ title, description }) => {
   return id;
 };
 
-export const createMessage = async ({ channelId, text }) => {
+export const createMessage = async ({ channelId, message }) => {
   return await firestore
     .collection("channels")
     .doc(channelId)
     .collection("messages")
-    .add({
-      text,
+    .doc(message._id)
+    .set({
+      ...message,
       createdAt: Date.now(),
     });
 };

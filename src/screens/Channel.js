@@ -63,7 +63,14 @@ const Channel = ({ navigation, route: { params } }) => {
     navigation.setOptions({ headerTitle: params.title || "Channel" });
   }, []);
 
-  const _handleMessageSend = () => {};
+  const _handleMessageSend = async (messageList) => {
+    const newMessage = messageList[0];
+    try {
+      await createMessage({ channelId: params.id, message: newMessage });
+    } catch (e) {
+      Alert.alert("Send Message Error: ", e.message);
+    }
+  };
 
   return (
     <Container>
