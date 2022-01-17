@@ -1,4 +1,5 @@
 import firebase from "firebase/compat/app";
+import "firebase/compat/firestore";
 import config from "../../firebase.json";
 import {
   getAuth,
@@ -13,6 +14,7 @@ firebase.initializeApp(config);
 
 const auth = getAuth();
 const storage = getStorage();
+const firestore = firebase.firestore();
 
 export const login = async ({ email, password }) => {
   const { user } = await signInWithEmailAndPassword(auth, email, password);
@@ -73,4 +75,17 @@ export const updateUserPhoto = async (photoUrl) => {
     photoURL: storageUrl,
   });
   return { name: user.displayName, email: user.email, photoUrl: user.photoURL };
+};
+
+export const createChannel = async ({ title, description }) => {
+  const newChannelRef = firestore.collection("channels").doc();
+  const id = newChannelRef.id;
+  const newChannel = {
+    id,
+    title,
+    description,
+    createdAt: Date.now(),
+  };
+  await newChannelRef.set(newChannel);
+  return id;
 };
