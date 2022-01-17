@@ -5,6 +5,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   updateProfile,
+  signOut,
 } from "firebase/auth";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
@@ -52,4 +53,8 @@ const uploadImage = async (uri) => {
 
   blob.close();
   return await getDownloadURL(imageRef);
+};
+
+export const logout = async () => {
+  return await signOut();
 };
