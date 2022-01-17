@@ -42,24 +42,26 @@ for (let idx = 0; idx < 10; idx++) {
   });
 }
 
-const Item = ({ item: { id, title, description, createdAt }, onPress }) => {
-  const theme = useContext(ThemeContext);
+const Item = React.memo(
+  ({ item: { id, title, description, createdAt }, onPress }) => {
+    const theme = useContext(ThemeContext);
 
-  return (
-    <ItemContainer onPress={() => onPress({ id, title })}>
-      <ItemTextContainer>
-        <ItemTitle>{title}</ItemTitle>
-        <ItemDescription>{description}</ItemDescription>
-      </ItemTextContainer>
-      <ItemTime>{createdAt}</ItemTime>
-      <MaterialIcons
-        name="keyboard-arrow-right"
-        size={24}
-        color={theme.listIcon}
-      />
-    </ItemContainer>
-  );
-};
+    return (
+      <ItemContainer onPress={() => onPress({ id, title })}>
+        <ItemTextContainer>
+          <ItemTitle>{title}</ItemTitle>
+          <ItemDescription>{description}</ItemDescription>
+        </ItemTextContainer>
+        <ItemTime>{createdAt}</ItemTime>
+        <MaterialIcons
+          name="keyboard-arrow-right"
+          size={24}
+          color={theme.listIcon}
+        />
+      </ItemContainer>
+    );
+  },
+);
 
 const ChannelList = ({ navigation }) => {
   const _handleItemPress = (params) => {
@@ -74,6 +76,7 @@ const ChannelList = ({ navigation }) => {
         renderItem={({ item }) => (
           <Item item={item} onPress={_handleItemPress} />
         )}
+        windowSize={3}
       />
     </Container>
   );
