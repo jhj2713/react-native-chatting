@@ -46,7 +46,7 @@ const ChannelCreation = ({ navigation }) => {
       const id = await createChannel({ title, description });
       navigation.replace("Channel", { id, title });
     } catch (e) {
-      Alert.alert("Creation Error", e.message);
+      Alert.alert("채팅방 만들기에 실패했습니다", "다시 시도해주세요");
     } finally {
       spinner.stop();
     }

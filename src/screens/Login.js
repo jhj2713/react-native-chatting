@@ -60,7 +60,7 @@ const Login = ({ navigation }) => {
       const user = await login({ email, password });
       dispatch(user);
     } catch (e) {
-      Alert.alert("Login Error", e.message);
+      Alert.alert("로그인에 실패했습니다", "정보를 다시 입력해주세요");
     } finally {
       spinner.stop();
     }

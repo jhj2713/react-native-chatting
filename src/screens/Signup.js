@@ -72,7 +72,7 @@ const Signup = () => {
       const user = await signup({ email, password, name, photoUrl });
       dispatch(user);
     } catch (e) {
-      Alert.alert("Signup Error", e.message);
+      Alert.alert("회원가입에 실패했습니다", "다시 시도해주세요");
     } finally {
       spinner.stop();
     }

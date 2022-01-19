@@ -72,7 +72,7 @@ const Channel = ({ navigation, route: { params } }) => {
         await uploadMessageImage({ channelId: params.id, uri: result.uri });
       }
     } catch (e) {
-      Alert.alert("Photo Error", e.message);
+      Alert.alert("사진을 불러오지 못했습니다");
     }
   };
   useLayoutEffect(() => {
@@ -94,7 +94,7 @@ const Channel = ({ navigation, route: { params } }) => {
     try {
       await createMessage({ channelId: params.id, message: newMessage });
     } catch (e) {
-      Alert.alert("Send Message Error: ", e.message);
+      Alert.alert("사진을 전송하지 못했습니다", "다시 시도해주세요");
     }
   };
   const _handleAvatarPress = (avatar) => {

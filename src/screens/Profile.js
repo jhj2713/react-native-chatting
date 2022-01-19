@@ -26,7 +26,7 @@ const Profile = () => {
       spinner.start();
       await logout();
     } catch (e) {
-      console.log("logout: ", e.message);
+      Alert.alert("로그아웃에 실패했습니다");
     } finally {
       dispatch({});
       spinner.stop();
@@ -39,7 +39,7 @@ const Profile = () => {
       const updatedUser = await updateUserPhoto(url);
       setPhotoUrl(updatedUser.photoUrl);
     } catch (e) {
-      Alert.alert("Photo Error: ", e.message);
+      Alert.alert("사진을 불러오지 못했습니다");
     } finally {
       spinner.stop();
     }
