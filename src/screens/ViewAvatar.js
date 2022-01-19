@@ -46,10 +46,12 @@ const ViewAvatar = ({ navigation, route: { params } }) => {
   const _handleFriendAdd = async () => {
     await setFriend(avatar);
     Alert.alert("친구 추가가 완료되었습니다");
+    navigation.goBack();
   };
   const _handleFriendDelete = async () => {
     await deleteFriend(avatar.id);
     Alert.alert("친구 삭제가 완료되었습니다");
+    navigation.goBack();
   };
 
   return (
