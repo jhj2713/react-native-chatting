@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { getAvatar } from "../utils/firebase";
-import { Image } from "../components";
+import { getAvatar, setFriend } from "../utils/firebase";
+import { Image, Button } from "../components";
 import { images } from "../utils/images";
 import { Alert } from "react-native";
 
@@ -18,6 +18,7 @@ const AvatarName = styled.Text`
 
 const ViewAvatar = ({ navigation, route: { params } }) => {
   const [avatar, setAvatar] = useState({
+    id: params._id,
     name: params.name,
     photoUrl: images.photo,
   });
@@ -31,10 +32,15 @@ const ViewAvatar = ({ navigation, route: { params } }) => {
     getPhotoUrl();
   }, []);
 
+  const _handleFriend = async () => {
+    await setFriend(avatar);
+  };
+
   return (
     <Container>
       <Image url={avatar.photoUrl} rounded />
       <AvatarName>{avatar.name}</AvatarName>
+      <Button title="친구 추가" onPress={_handleFriend} isFilled={false} />
     </Container>
   );
 };

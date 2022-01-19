@@ -9,6 +9,7 @@ import {
   signOut,
 } from "firebase/auth";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { Alert } from "react-native";
 
 firebase.initializeApp(config);
 
@@ -105,4 +106,13 @@ export const createMessage = async ({ channelId, message }) => {
 export const getAvatar = async (avatarId) => {
   const imageRef = ref(storage, `/profile/${avatarId}/photo.png`);
   return await getDownloadURL(imageRef);
+};
+
+export const setFriend = async (avatar) => {
+  const user = auth.currentUser;
+  await firestore
+    .collection("user")
+    .doc(user.uid)
+    .collection("friends")
+    .add(avatar);
 };
