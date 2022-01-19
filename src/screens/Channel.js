@@ -4,6 +4,8 @@ import styled, { ThemeContext } from "styled-components/native";
 import { Alert } from "react-native";
 import { GiftedChat, Send } from "react-native-gifted-chat";
 import { MaterialIcons } from "@expo/vector-icons";
+import { uploadMessageImage } from "../utils/firebase";
+import * as ImagePicker from "expo-image-picker";
 
 const Container = styled.View`
   flex: 1;
@@ -58,8 +60,33 @@ const Channel = ({ navigation, route: { params } }) => {
     return () => unsubscribe();
   }, []);
 
+  const _handlePhoto = async () => {
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        quality: 1,
+      });
+
+      if (!result.cancelled) {
+        await uploadMessageImage({ channelId: params.id, uri: result.uri });
+      }
+    } catch (e) {
+      Alert.alert("Photo Error", e.message);
+    }
+  };
   useLayoutEffect(() => {
-    navigation.setOptions({ headerTitle: params.title || "Channel" });
+    navigation.setOptions({
+      headerTitle: params.title || "Channel",
+      headerRight: () => (
+        <MaterialIcons
+          name="add-a-photo"
+          size={26}
+          style={{ margin: 10 }}
+          onPress={_handlePhoto}
+        />
+      ),
+    });
   }, []);
 
   const _handleMessageSend = async (messageList) => {

@@ -158,3 +158,60 @@ export const deleteFriend = async (id) => {
       });
     });
 };
+
+const messageIdGenerator = () => {
+  // generates uuid.
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+    let r = (Math.random() * 16) | 0,
+      v = c == "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+};
+export const uploadMessageImage = async ({ channelId, uri }) => {
+  const blob = await new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+      resolve(xhr.response);
+    };
+    xhr.onerror = function (e) {
+      reject(new TypeError("Network request failed"));
+    };
+    xhr.responseType = "blob";
+    xhr.open("GET", uri, true);
+    xhr.send(null);
+  });
+
+  const curTime = Date.now();
+  const imageRef = ref(storage, `/message/${channelId}/${curTime}/photo.png`);
+  await uploadBytes(imageRef, blob, {
+    contentType: "image/png",
+  });
+
+  blob.close();
+  const url = await getDownloadURL(imageRef);
+  const user = auth.currentUser;
+
+  const message = {};
+  message._id = messageIdGenerator();
+  message.text = "";
+  message.user = {
+    _id: user.uid,
+    name: user.displayName,
+    avatar: user.photoURL,
+  };
+  message.image = url;
+  message.messageType = "image";
+
+  return await firestore
+    .collection("channels")
+    .doc(channelId)
+    .collection("messages")
+    .doc(message._id)
+    .set({
+      ...message,
+      createdAt: Date.now(),
+    })
+    .catch((err) => {
+      Alert.alert(err.message);
+    });
+};
