@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import { Profile, ChannelList } from "../screens";
+import FriendStack from "./FriendStack";
 import { MaterialIcons } from "@expo/vector-icons";
 import { ThemeContext } from "styled-components/native";
 
@@ -53,6 +54,17 @@ const MainTab = ({ navigation, route }) => {
             TabBarIcon({
               focused,
               name: focused ? "chat-bubble" : "chat-bubble-outline",
+            }),
+        }}
+      />
+      <Tab.Screen
+        name="Friends"
+        component={FriendStack}
+        options={{
+          tabBarIcon: ({ focused }) =>
+            TabBarIcon({
+              focused,
+              name: focused ? "people" : "people-outline",
             }),
         }}
       />

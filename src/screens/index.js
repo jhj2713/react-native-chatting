@@ -5,6 +5,7 @@ import ChannelCreation from "./ChannelCreation";
 import ChannelList from "./ChannelList";
 import Profile from "./Profile";
 import ViewAvatar from "./ViewAvatar";
+import FriendList from "./FriendList";
 
 export {
   Login,
@@ -14,4 +15,5 @@ export {
   ChannelList,
   Profile,
   ViewAvatar,
+  FriendList,
 };

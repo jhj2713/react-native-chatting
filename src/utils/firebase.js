@@ -116,3 +116,13 @@ export const setFriend = async (avatar) => {
     .collection("friends")
     .add(avatar);
 };
+
+export const getFriends = async (uid) => {
+  return await firestore
+    .collection("user")
+    .doc(uid)
+    .get()
+    .then((res) => {
+      return res.docs.map((doc) => doc.data());
+    });
+};
