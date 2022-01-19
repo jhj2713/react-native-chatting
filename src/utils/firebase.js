@@ -126,3 +126,35 @@ export const getFriends = async (uid) => {
       return res.docs.map((doc) => doc.data());
     });
 };
+
+export const checkFriend = async (id) => {
+  const user = auth.currentUser;
+  return await firestore
+    .collection("user")
+    .doc(user.uid)
+    .collection("friends")
+    .where("id", "==", id)
+    .get()
+    .then((res) => {
+      if (res.docs.length > 0) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+};
+
+export const deleteFriend = async (id) => {
+  const user = auth.currentUser;
+  await firestore
+    .collection("user")
+    .doc(user.uid)
+    .collection("friends")
+    .where("id", "==", id)
+    .get()
+    .then((res) => {
+      res.docs.forEach((doc) => {
+        doc.ref.delete();
+      });
+    });
+};

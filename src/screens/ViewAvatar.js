@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { getAvatar, setFriend } from "../utils/firebase";
+import {
+  getAvatar,
+  setFriend,
+  checkFriend,
+  deleteFriend,
+} from "../utils/firebase";
 import { Image, Button } from "../components";
 import { images } from "../utils/images";
 import { Alert } from "react-native";
@@ -22,6 +27,7 @@ const ViewAvatar = ({ navigation, route: { params } }) => {
     name: params.name,
     photoUrl: images.photo,
   });
+  const [isFriend, setIsFriend] = useState(false);
 
   useEffect(() => {
     navigation.setOptions({ headerTitle: params.name || "User" });
@@ -29,19 +35,32 @@ const ViewAvatar = ({ navigation, route: { params } }) => {
       const url = await getAvatar(params._id);
       setAvatar({ ...avatar, photoUrl: url });
     }
+    async function checkIsFriend() {
+      const check = await checkFriend(avatar.id);
+      setIsFriend(check);
+    }
     getPhotoUrl();
+    checkIsFriend();
   }, []);
 
-  const _handleFriend = async () => {
+  const _handleFriendAdd = async () => {
     await setFriend(avatar);
     Alert.alert("친구 추가가 완료되었습니다");
+  };
+  const _handleFriendDelete = async () => {
+    await deleteFriend(avatar.id);
+    Alert.alert("친구 삭제가 완료되었습니다");
   };
 
   return (
     <Container>
       <Image url={avatar.photoUrl} rounded />
       <AvatarName>{avatar.name}</AvatarName>
-      <Button title="친구 추가" onPress={_handleFriend} isFilled={false} />
+      <Button
+        title={isFriend ? "친구 삭제" : "친구 추가"}
+        onPress={isFriend ? _handleFriendDelete : _handleFriendAdd}
+        isFilled={false}
+      />
     </Container>
   );
 };

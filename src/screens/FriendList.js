@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import { firestore, getCurrentUser } from "../utils/firebase";
 import { FlatList } from "react-native";
 import styled from "styled-components/native";
