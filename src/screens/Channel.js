@@ -41,7 +41,6 @@ const Channel = ({ navigation, route: { params } }) => {
   const { uid, name, photoUrl } = getCurrentUser();
 
   const [messages, setMessages] = useState([]);
-  const [text, setText] = useState([]);
 
   useEffect(() => {
     const unsubscribe = firestore
@@ -71,6 +70,9 @@ const Channel = ({ navigation, route: { params } }) => {
       Alert.alert("Send Message Error: ", e.message);
     }
   };
+  const _handleAvatarPress = (avatar) => {
+    navigation.navigate("Avatar", avatar);
+  };
 
   return (
     <Container>
@@ -92,6 +94,7 @@ const Channel = ({ navigation, route: { params } }) => {
         renderUsernameOnMessage={true}
         scrollToBottom={true}
         renderSend={(props) => <SendButton {...props} />}
+        onPressAvatar={_handleAvatarPress}
       />
     </Container>
   );

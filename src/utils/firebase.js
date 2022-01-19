@@ -101,3 +101,8 @@ export const createMessage = async ({ channelId, message }) => {
       createdAt: Date.now(),
     });
 };
+
+export const getAvatar = async (avatarId) => {
+  const imageRef = ref(storage, `/profile/${avatarId}/photo.png`);
+  return await getDownloadURL(imageRef);
+};
